@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router();
-const controller = require("../controllers/message.controller")
+const controller = require("../controllers/favorite.controller")
 
 router.get("/",controller.getAll);
 

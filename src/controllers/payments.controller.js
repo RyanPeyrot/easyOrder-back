@@ -9,3 +9,16 @@ const getAll = async (req, res) => {
         res.status(500).json({ message: 'Erreur lors de la récupération des payments', error });
     }
 };
+
+const createOne = async (req,res) => {
+    try {
+        const data = req.body;
+        const document = new Payment(data);
+        await document.save();
+        res.status(201).json(document);
+    } catch (error){
+        res.status(500).json({ message: 'Erreur lors de la création des payments', error });
+    }
+}
+
+module.exports = {getAll,createOne}
