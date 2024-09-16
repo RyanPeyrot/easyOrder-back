@@ -18,7 +18,7 @@ mongoose.connect(`${process.env.DBURI}`)
     console.log("Connection successful");
 }).catch(err=>console.error(err));
 
-//app.use('/easyorder/v1',apiRouter)
+app.use('/easyorder/v1',apiRouter)
 
 app.listen(PORT, () => {
     console.log(`Server launch on http://localhost:${PORT}`);
