@@ -256,17 +256,6 @@ Erreurs possibles
 
 * * * * *
 
-Contribution
-------------
-
-1.  Forkez le projet.
-2.  Créez votre branche de fonctionnalité (`git checkout -b feature/nouvelle-fonctionnalite`).
-3.  Commitez vos changements (`git commit -am 'Ajout d'une nouvelle fonctionnalité'`).
-4.  Poussez la branche (`git push origin feature/nouvelle-fonctionnalite`).
-5.  Créez une Pull Request.
-
-* * * * *
-
 License
 -------
 
