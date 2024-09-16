@@ -14,20 +14,14 @@ Installation
 1.  Clonez le dépôt.
 2.  Installez les dépendances avec :
 
-    bash
 
-    Copier le code
-
-    `npm install`
+    npm install
 
 3.  Configurez la connexion MongoDB dans votre fichier de configuration.
 4.  Lancez le serveur :
 
-    bash
 
-    Copier le code
-
-    `npm start`
+    npm start
 
 * * * * *
 
