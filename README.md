@@ -18,7 +18,7 @@ Utilisation du port 4000
 - ID
 - NAME
 - DESCRIPTION
-- PRICE
+- PRICE_IN_CENT (evite les soucis de virgule)
 - STOCK
 - ARTISAND_ID (ref user id)
 - CREATED_AT
@@ -47,7 +47,8 @@ Utilisation du port 4000
 - ID
 - SENDER_ID (ref user_id)
 - RECIPIENT_ID (ref user_id)
-- CONTENT
+- CONTENT -> doit ressembler à
+    { id_user : {message : "messsage", date:"date d'envoie du message"}, etc. }
 - CREATED_AT
 
 ## PAYMENTS
