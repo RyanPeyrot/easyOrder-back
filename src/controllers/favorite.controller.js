@@ -3,7 +3,7 @@ const Favorite = require('../models/favorite.model');
 // Contrôleur pour récupérer tous les messages
 const getAll = async (req, res) => {
     try {
-        const favorite = await Favorite.find();
+        const favorite = await Favorite.find({});
         res.status(200).json(favorite);
     } catch (error) {
         res.status(500).json({ message: 'Erreur lors de la récupération des favoris', error });

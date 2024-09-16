@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 const {Schema, Types} = require("mongoose");
 
-const favoriteSchema = mongoose.Schema({
+const favoriteSchema = new Schema({
     user_id: {
         type: Types.ObjectId,
         ref: 'User',

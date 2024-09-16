@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 const {Schema, Types} = require("mongoose");
 
-const messageSchema = mongoose.Schema({
+const messageSchema = new Schema({
     sender_id:{
         type:Types.ObjectId,
         ref:'User',
@@ -13,7 +13,7 @@ const messageSchema = mongoose.Schema({
         required:true
     },
     content:{
-        type:Types.Mixed,
+        type: Schema.Types.Mixed,
         required:true
     },
     created_at:{
