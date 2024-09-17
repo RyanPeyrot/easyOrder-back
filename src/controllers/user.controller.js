@@ -44,6 +44,23 @@ const updateOne = async (req, res) => {
     }
 };
 
+const updateProfilPic = async (req,res) => {
+    try {
+        const user = await User.findById(req.params.id);
+        if (!user) return res.status(404).json({ message: 'Utilisateur non trouvé' });
+
+        user.profile_pic = req.file.path;
+        await user.save();
+
+        res.status(200).json({
+            message: 'Photo de profil mise à jour avec succès',
+            user,
+        });
+    } catch (error) {
+        res.status(500).json({ message: 'Erreur lors de la mise à jour de la photo de profil', error });
+    }
+}
+
 // Supprimer un utilisateur
 const deleteOne = async (req, res) => {
     try {
@@ -55,4 +72,4 @@ const deleteOne = async (req, res) => {
     }
 };
 
-module.exports = { getAll, getOne, createOne, updateOne, deleteOne };
+module.exports = { getAll, getOne, createOne, updateOne, deleteOne, updateProfilPic };

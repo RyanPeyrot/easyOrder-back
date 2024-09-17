@@ -27,6 +27,14 @@ const userSchema = new Schema({
         required:true,
         default : false
     },
+    rating:{
+      type:Number,
+      default : -1
+    },
+    profile_pic:{
+        type:String,
+        default:"https://res.cloudinary.com/dt1ksv65x/image/upload/v1726566963/default_pic.png"
+    },
     created_at:{
         type:Date,
         default:Date.now

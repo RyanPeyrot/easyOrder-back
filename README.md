@@ -36,6 +36,8 @@ Modèles
 -   **role** (String, `artisant` ou `client`) : Rôle de l'utilisateur.
 -   **company** (String, optionnel) : Nom de l'entreprise (pour les artisans).
 -   **subscriber** (Boolean, requis) : Indique si l'utilisateur est abonné.
+-   **rating** (Number, par defaut à -1) : -1 indique aucune note
+-   **profil_pic** (String, par defaut : "https://res.cloudinary.com/dt1ksv65x/image/upload/v1726566963/default_pic.png") : photo de profil
 -   **created_at** (Date, par défaut à la date actuelle).
 -   **updated_at** (Date, par défaut à la date actuelle).
 
@@ -79,14 +81,27 @@ Modèles
 -   **content** (Mixed, requis) : Contenu du message.
 -   **created_at** (Date, par défaut à la date actuelle).
 
-### 7\. Favorite
+### 7\. Favorite_product
 
 -   **user_id** (ObjectId, référence vers `User`, requis) : Utilisateur ayant ajouté des produits en favoris.
 -   **products** (Array d'ObjectId, références vers `Product`) : Produits favoris.
 
-### 8\. Category
+### 8\. Favorite_vendor
+
+-   **user_id** (ObjectId, référence vers `User`, requis) : Utilisateur ayant ajouté des produits en favoris.
+-   **vendor** (Array d'ObjectId, références vers `User`) : Produits favoris.
+
+### 9\. Category
 
 -   **name** (String, requis) : Nom de la catégorie de produits.
+
+### 10\. Comment
+
+-   **sender_id** (ObjectId, référence vers `User`, requis) : Utilisateur ayant envoyé le message.
+-   **recipient_id** (ObjectId, référence vers `User`, requis) : Utilisateur recevant le message.
+-   **content** (Mixed, requis) : Contenu du message.
+-   **content** (Number, requis) : Note.
+-   **created_at** (Date, par défaut à la date actuelle).
 
 * * * * *
 
@@ -106,10 +121,14 @@ Routes et Opérations CRUD
             "name": "John Doe",
             "role": "client",
             "company": "Exemple Corp",
+            "rating" : 3,
             "subscriber": true
         }
         ```
-
+-   **POST** `/:id/profile_pic` : mettre à jour la photo de profil
+    ```form
+        form upload key : profile_pic
+    ```
 -   **PUT** `/user/:id` : Mettre à jour un utilisateur par ID.
 -   **DELETE** `/user/:id` : Supprimer un utilisateur par ID.
 
@@ -207,11 +226,11 @@ Routes et Opérations CRUD
 -   **PUT** `/message/:id` : Mettre à jour un message par ID.
 -   **DELETE** `/message/:id` : Supprimer un message par ID.
 
-### 7\. Favorite
+### 7\. Favorite_product
 
--   **GET** `/favorite` : Récupérer tous les favoris.
--   **GET** `/favorite/:id` : Récupérer un favori par ID.
--   **POST** `/favorite` : Créer un favori.
+-   **GET** `/favorite_product` : Récupérer tous les favoris.
+-   **GET** `/favorite_product/:id` : Récupérer un favori par ID.
+-   **POST** `/favorite_product` : Créer un favori.
     -   **Body** :
 
 ```json
@@ -221,8 +240,25 @@ Routes et Opérations CRUD
 }
 ```
 
--   **PUT** `/favorite/:id` : Mettre à jour un favori par ID.
--   **DELETE** `/favorite/:id` : Supprimer un favori par ID.
+-   **PUT** `/favorite_product/:id` : Mettre à jour un favori par ID.
+-   **DELETE** `/favorite_product/:id` : Supprimer un favori par ID.
+
+### 7\. Favorite_vendor
+
+-   **GET** `/favorite_vendor` : Récupérer tous les favoris.
+-   **GET** `/favorite_vendor/:id` : Récupérer un favori par ID.
+-   **POST** `/favorite_vendor` : Créer un favori.
+    -   **Body** :
+
+```json
+{
+  "user_id": "60a6a7cd8b5c5e0a8493bdc1",
+  "vendor": ["60a6a7cd8b5c5e0a8493bdc3", "60a6a7cd8b5c5e0a8493bdc4"]
+}
+```
+
+-   **PUT** `/favorite_vendor/:id` : Mettre à jour un favori par ID.
+-   **DELETE** `/favorite_vendor/:id` : Supprimer un favori par ID.
 
 ### 8\. Category
 
@@ -239,6 +275,24 @@ Routes et Opérations CRUD
 
 -   **PUT** `/category/:id` : Mettre à jour une catégorie par ID.
 -   **DELETE** `/category/:id` : Supprimer une catégorie par ID.
+
+### 6\. Comment
+
+-   **GET** `/comment` : Récupérer tous les messages.
+-   **GET** `/comment/:id` : Récupérer un message par ID.
+-   **POST** `/comment` : Créer un nouveau message.
+    -   **Body** :
+```json
+  {
+    "sender_id": "60a6a7cd8b5c5e0a8493bdc1",
+    "recipient_id": "60a6a7cd8b5c5e0a8493bdc2",
+    "content": "Bonjour, comment allez-vous ?",
+    "rating": 4  
+  }
+```
+
+-   **PUT** `/comment/:id` : Mettre à jour un message par ID.
+-   **DELETE** `/comment/:id` : Supprimer un message par ID.
 
 * * * * *
 
