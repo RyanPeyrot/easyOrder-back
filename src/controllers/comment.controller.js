@@ -1,6 +1,5 @@
 const Comment = require('../models/comment.model');
 const User = require('../models/user.model');
-const {isSDAMUnrecoverableError} = require("mongodb/src/error");
 
 const getAll = async (req, res) => {
     try {
