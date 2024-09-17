@@ -31,6 +31,10 @@ const userSchema = new Schema({
       type:Number,
       default : -1
     },
+    rate_amount:{
+        type:Number,
+        default:0
+    },
     profile_pic:{
         type:String,
         default:"https://res.cloudinary.com/dt1ksv65x/image/upload/v1726566963/default_pic.png"

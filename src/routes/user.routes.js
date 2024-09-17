@@ -22,7 +22,7 @@ const upload = multer({ storage });
 router.get('/', controller.getAll);
 router.get('/:id', controller.getOne);
 router.post('/', controller.createOne);
-router.post('/:id/profile_pic', upload.single('profile_pic'), controller.updateProfilPic);
+router.post('/:id/profile_pic', upload.single('profile_pic'), controller.updateProfilePic);
 router.put('/:id', controller.updateOne);
 router.delete('/:id', controller.deleteOne);
 

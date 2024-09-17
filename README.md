@@ -36,7 +36,8 @@ Modèles
 -   **role** (String, `artisant` ou `client`) : Rôle de l'utilisateur.
 -   **company** (String, optionnel) : Nom de l'entreprise (pour les artisans).
 -   **subscriber** (Boolean, requis) : Indique si l'utilisateur est abonné.
--   **rating** (Number, par defaut à -1) : -1 indique aucune note
+-   **rating** (Number, par defaut à -1) : -1 indique aucune note, note moyenne de l'utilisateur
+-   **rate_amount** (Number, par defaut à 0) : nombre d'avis de l'utilisateurs
 -   **profil_pic** (String, par defaut : "https://res.cloudinary.com/dt1ksv65x/image/upload/v1726566963/default_pic.png") : photo de profil
 -   **created_at** (Date, par défaut à la date actuelle).
 -   **updated_at** (Date, par défaut à la date actuelle).
@@ -278,9 +279,9 @@ Routes et Opérations CRUD
 
 ### 6\. Comment
 
--   **GET** `/comment` : Récupérer tous les messages.
--   **GET** `/comment/:id` : Récupérer un message par ID.
--   **POST** `/comment` : Créer un nouveau message.
+-   **GET** `/comment` : Récupérer tous les commentaires.
+-   **GET** `/comment/:id` : Récupérer un commentaire par ID.
+-   **POST** `/comment` : Créer un nouveau commentaire et modifie la note moyenne de l'utilisateur.
     -   **Body** :
 ```json
   {

@@ -44,7 +44,7 @@ const updateOne = async (req, res) => {
     }
 };
 
-const updateProfilPic = async (req,res) => {
+const updateProfilePic = async (req,res) => {
     try {
         const user = await User.findById(req.params.id);
         if (!user) return res.status(404).json({ message: 'Utilisateur non trouvé' });
@@ -72,4 +72,4 @@ const deleteOne = async (req, res) => {
     }
 };
 
-module.exports = { getAll, getOne, createOne, updateOne, deleteOne, updateProfilPic };
+module.exports = { getAll, getOne, createOne, updateOne, deleteOne, updateProfilePic };
