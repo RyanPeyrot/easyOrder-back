@@ -1,4 +1,4 @@
-const Favorite = require('../models/favorite.model');
+const Favorite = require('../models/favorite_product.model');
 
 // Récupérer tous les favoris
 const getAll = async (req, res) => {

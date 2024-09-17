@@ -7,10 +7,10 @@ const favoriteSchema = new Schema({
         ref: 'User',
         required: true
     },
-    products: [{
+    vendor: [{
         type: Types.ObjectId,
-        ref: 'Product',
+        ref: 'User',
     }]
 })
 
-module.exports = mongoose.model('Favorite',favoriteSchema);
+module.exports = mongoose.model('FavoriteVendor',favoriteSchema);
