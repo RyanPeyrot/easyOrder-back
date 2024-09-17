@@ -157,17 +157,22 @@ Routes et Opérations CRUD
 
 -   **GET** `/order` : Récupérer toutes les commandes.
 -   **GET** `/order/:id` : Récupérer une commande par ID.
-  -   **POST** `/order` : Créer une nouvelle commande.
-      -   **Body** :
-
-      ```json
-          {
-            "user_id": "60a6a7cd8b5c5e0a8493bdc1",
-            "total_in_cent": 5000,
-            "status": "pending"
-          }
-        
-      ```
+-   **POST** `/order` : Créer une nouvelle commande.
+    -   **Body** :
+    
+    ```json
+      {
+        "user": "60d21b467fd7b00a6c339b8a",
+        "delivery_address": {
+            "street": "123 Rue de Paris",
+            "postalCode": "75001",
+            "city": "Paris",
+            "country": "France"
+        },
+        "items": ["60d21b567fd7b00a6c339b8b"],
+        "total_price": 10000
+      }
+    ```
 
 -   **PUT** `/order/:id` : Mettre à jour une commande par ID.
 -   **DELETE** `/order/:id` : Supprimer une commande par ID.
@@ -287,7 +292,7 @@ Routes et Opérations CRUD
   {
     "sender_id": "60a6a7cd8b5c5e0a8493bdc1",
     "recipient_id": "60a6a7cd8b5c5e0a8493bdc2",
-    "content": "Bonjour, comment allez-vous ?",
+    "content": "Super Taff",
     "rating": 4  
   }
 ```
