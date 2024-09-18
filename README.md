@@ -113,6 +113,16 @@ Routes et Opérations CRUD
 
 -   **GET** `/user` : Récupérer tous les utilisateurs.
 -   **GET** `/user/:id` : Récupérer un utilisateur par ID.
+- **GET** `/artisanByRate` : Récupérer tous les artisans triés par rating.
+- **GET** `/artisans` : Récupérer la liste de tous les artisans.
+- **GET** `/clients` : Récupérer la liste de tous les clients.
+- **GET** `/company` : Récupérer la liste unique des entreprises.
+- **GET** `/newArtisans` : Récupérer tous les artisans créés au cours du dernier mois.
+- **GET** `/:searchType/:value` : Récupérer un utilisateur par email ou nom.
+    - Paramètres d'URL :
+        - `searchType` : soit `email`, soit `name`.
+        - `value` : La valeur correspondante (ex: `john.doe@example.com` ou `John Doe`).
+        -
   -   **POST** `/user` : Créer un nouvel utilisateur.
       -   **Body** :
         ```json
