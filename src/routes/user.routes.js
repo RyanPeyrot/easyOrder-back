@@ -29,6 +29,7 @@ router.get('/:searchType/:value', controller.getUserByEmailOrName);
 router.get('/:id', controller.getOne);
 router.post('/', controller.createOne);
 router.post('/login', controller.loginUser);
+router.post('/addCompany', controller.addCompany);
 router.post('/:id/profile_pic', upload.single('profile_pic'), controller.updateProfilePic);
 router.put('/:id', controller.updateOne);
 router.delete('/:id', controller.deleteOne);
