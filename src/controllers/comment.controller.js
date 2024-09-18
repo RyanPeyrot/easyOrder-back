@@ -21,6 +21,25 @@ const getOne = async (req, res) => {
     }
 };
 
+const getReceivedSentComment = async (req, res) => {
+    try {
+        const userType = req.params.userType;
+
+        let filter
+        if (userType === "sender") {
+            filter = {sender_id: req.params.userId}
+        } else if (userType === "recipient") {
+            filter = {recipient_id: req.params.userId}
+        }
+
+        const comments = await Comment.find(filter);
+        if (!comments) return res.status(404).json({message: 'Commentaires non trouvé'});
+        res.status(200).json(comments);
+    } catch (error) {
+        res.status(500).json({message: 'Erreur lors de la récupération des commentaires', error});
+    }
+}
+
 
 const createOne = async (req, res) => {
     try {
@@ -53,9 +72,27 @@ const createOne = async (req, res) => {
 
 const updateOne = async (req, res) => {
     try {
-        const updatedComment = await Comment.findByIdAndUpdate(req.params.id, req.body, { new: true });
+        const oldComment = await Comment.findById(req.params.id);
+
+        let recipient = {};
+        if (req.body.rate >= 0) {
+            recipient = await User.findById(oldComment.recipient_id);
+            if (!recipient) {
+                return res.status(404).json({message: 'Utilisateur destinataire non trouvé'});
+            }
+
+            recipient.rating = ((recipient.rating * recipient.rate_amount) - oldComment.rate + req.body.rate) / recipient.rate_amount;
+
+            await recipient.save();
+        }
+
+        const updatedComment = await Comment.findByIdAndUpdate(req.params.id, req.body, {new: true});
         if (!updatedComment) return res.status(404).json({ message: 'Commentaire non trouvé' });
-        res.status(200).json(updatedComment);
+        res.status(201).json({
+            message: 'Commentaire créé et note mise à jour avec succès',
+            updatedComment,
+            recipient
+        });
     } catch (error) {
         res.status(500).json({ message: 'Erreur lors de la mise à jour du commentaire', error });
     }
@@ -71,4 +108,4 @@ const deleteOne = async (req, res) => {
     }
 };
 
-module.exports = { getAll, getOne, createOne, updateOne, deleteOne };
+module.exports = {getAll, getOne, createOne, updateOne, deleteOne, getReceivedSentComment};

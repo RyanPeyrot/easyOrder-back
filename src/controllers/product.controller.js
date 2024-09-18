@@ -1,5 +1,4 @@
 const Product = require('../models/product.model');
-
 const getAll = async (req, res) => {
     try {
         const products = await Product.find();
@@ -16,6 +15,34 @@ const getOne = async (req, res) => {
         res.status(200).json(product);
     } catch (error) {
         res.status(500).json({ message: 'Erreur lors de la récupération du produit', error });
+    }
+};
+
+const getUserProduct = async (req, res) => {
+    try {
+        const product = await Product.find({artisan_id: req.params.userId});
+        if (!product) return res.status(404).json({message: 'Produit non trouvé'});
+        res.status(200).json(product);
+    } catch (error) {
+        res.status(500).json({message: 'Erreur lors de la récupération du produit', error});
+    }
+}
+
+const getNewProducts = async (req, res) => {
+    try {
+        const lastMonth = new Date();
+        lastMonth.setMonth(lastMonth.getMonth() - 1);
+
+        const product = await Product.find({
+            created_at: {$gte: lastMonth}
+        }).sort({created_at: -1});
+
+        res.status(200).json(product);
+    } catch (error) {
+        res.status(500).json({
+            message: 'Erreur lors de la récupération des produits créés le dernier mois',
+            error,
+        });
     }
 };
 
@@ -50,4 +77,4 @@ const deleteOne = async (req, res) => {
     }
 };
 
-module.exports = { getAll, getOne, createOne, updateOne, deleteOne };
+module.exports = {getAll, getOne, createOne, updateOne, deleteOne, getUserProduct, getNewProducts};

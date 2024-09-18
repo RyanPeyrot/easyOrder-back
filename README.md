@@ -157,6 +157,8 @@ Routes et Opérations CRUD
 ### 2\. Product
 
 -   **GET** `/product` : Récupérer tous les produits.
+- **GET** `/product/newProduct` : Récupérer les produits crée dans le dernier mois.
+- **GET** `/product/userProduct/:userId` : Récupérer les produits d'un utilisateur.
 -   **GET** `/product/:id` : Récupérer un produit par ID.
 -   **POST** `/product` : Créer un nouveau produit.
     -   **Body** :
@@ -306,6 +308,8 @@ Routes et Opérations CRUD
 ### 6\. Comment
 
 -   **GET** `/comment` : Récupérer tous les commentaires.
+- **GET** `/comment/:userType/:userId` : Récupérer tous les commentaires d'un utilisateur selon son type
+  (recipient ou sender).
 -   **GET** `/comment/:id` : Récupérer un commentaire par ID.
 -   **POST** `/comment` : Créer un nouveau commentaire et modifie la note moyenne de l'utilisateur.
     -   **Body** :
