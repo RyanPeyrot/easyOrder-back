@@ -1,8 +1,6 @@
 Documentation de l'API
 ======================
 
-//TODO : Ajouter les modifs schema order pour l'address de livraison
-
 Description
 -----------
 
