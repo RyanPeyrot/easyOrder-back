@@ -34,7 +34,19 @@ Modèles
 -   **password** (String, requis) : Mot de passe de l'utilisateur.
 -   **name** (String, requis) : Nom de l'utilisateur.
 -   **role** (String, `artisant` ou `client`) : Rôle de l'utilisateur.
--   **company** (String, optionnel) : Nom de l'entreprise (pour les artisans).
+- **company** (SchemaCompany) : uniquement pour les artisans.
+    - **siren** (String)
+    - **siret** (String)
+    - **date_creation** (String)
+    - **denomination** (String) : nom de l'entreprise
+    - **categorie_entreprise** (String) : code categorie de l'entreprise
+    - **activitite_principale_legale** (String) : code d'activité (NAF/APE)
+    - **adresse_etablissement** (schema adresseCompany)
+        - **typeVoieEtablissement** (String, requis)
+        - **libelleVoieEtablissement** (String, requis)
+        - **codePostalEtablissement** (String, requis)
+        - **libelleCommuneEtablissement** (String, requis)
+    - **etat** (String, `refusé`/`en attente`/`validé`, par defaut : `en attente`)
 -   **subscriber** (Boolean, requis) : Indique si l'utilisateur est abonné.
 -   **rating** (Number, par defaut à -1) : -1 indique aucune note, note moyenne de l'utilisateur
 -   **rate_amount** (Number, par defaut à 0) : nombre d'avis de l'utilisateurs
@@ -59,6 +71,11 @@ Modèles
 -   **status** (String, `pending`, `processing`, `shipped`, `delivered`, `cancelled`) : Statut de la commande.
 -   **created_at** (Date, par défaut à la date actuelle).
 -   **updated_at** (Date, par défaut à la date actuelle).
+- **delivery_address** (addressSchema, requis) : adresse de livraison
+    - **street** (String, requis) : rue
+    - **postalCode** (String, requis) : code postale
+    - **city** (String, requis) : ville
+    - **country** (String, requis) : pays
 
 ### 4\. Payment
 
@@ -131,7 +148,6 @@ Routes et Opérations CRUD
         "password": "secret",
         "name": "John Doe",
         "role": "client",
-        "company": "Exemple Corp",
         "rating" : 3,
         "subscriber": true
     }
@@ -148,6 +164,14 @@ Routes et Opérations CRUD
       "password": "secret"
   } 
     ```
+- **POST** `/addCompany` : Ajoute une entreprise à un utilisateur
+    - **Body** :
+  ```json
+  {
+  "siret": "53066741900051",
+  "_id": "66ea9feb2a17a73474d7e0c7"
+  }
+  ```
 -   **PUT** `/user/:id` : Mettre à jour un utilisateur par ID.
 -   **DELETE** `/user/:id` : Supprimer un utilisateur par ID.
 

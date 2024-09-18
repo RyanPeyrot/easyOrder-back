@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 const {Schema} = require("mongoose");
 const bcrypt = require('bcrypt');
+const {companySchema} = require("./company.model");
 
 const userSchema = new Schema({
     email:{
@@ -20,9 +21,7 @@ const userSchema = new Schema({
         enum: ['artisan', 'client'],
         default: 'client'
     },
-    company:{
-        type:String,
-    },
+    company: companySchema,
     subscriber:{
         type:Boolean,
         required:true,

@@ -1,4 +1,7 @@
 const User = require('../models/user.model');
+const {Company} = require('../models/company.model');
+require('dotenv').config();
+const axios = require('axios');
 
 // Récupérer tous les utilisateurs
 const getAll = async (req, res) => {
@@ -189,8 +192,72 @@ const loginUser = async (req, res) => {
     }
 };
 
+const addCompany = async (req, res) => {
+    try {
+        const siretNumber = req.body.siret;
+        const userId = req.body._id;
+        const today = new Date();
+        const yyyy = today.getFullYear();
+        const mm = String(today.getMonth() + 1).padStart(2, '0');
+        const dd = String(today.getDate()).padStart(2, '0');
+
+        const date = `${yyyy}-${mm}-${dd}`;
+
+        const user = await User.findById(userId);
+
+        if (!user) {
+            return res.status(404).json({message: 'Utilisateur non trouvé'});
+        } else if (user.role !== "artisan") {
+            return res.status(403).json({message: 'Utilisateur non artisan'});
+        }
+
+        const fullCompany = (await axios
+            .get(`https://api.insee.fr/entreprises/sirene/V3.11/siret/${siretNumber}?date=${date}`, {
+                headers: {
+                    'Authorization': `Bearer ${process.env.SIREN_API_TOKEN}`
+                }
+            })).data;
+
+        if (fullCompany.header.statut !== 200) {
+            return res.status(fullCompany.header.statut).json({
+                message: fullCompany.header.message
+            })
+        }
+
+        const company = new Company({
+            siren: fullCompany.etablissement.siren,
+            siret: fullCompany.etablissement.siret,
+            date_creation: fullCompany.etablissement.dateCreationEtablissement,
+            denomination: fullCompany.etablissement.uniteLegale.denominationUniteLegale,
+            categorie_entreprise: fullCompany.etablissement.uniteLegale.categorieJuridiqueUniteLegale,
+            activitite_principale_legale: fullCompany.etablissement.uniteLegale.activitePrincipaleUniteLegale,
+            adresse_etablissement: {
+                typeVoieEtablissement: fullCompany.etablissement.adresseEtablissement.typeVoieEtablissement,
+                libelleVoieEtablissement: fullCompany.etablissement.adresseEtablissement.libelleVoieEtablissement,
+                codePostalEtablissement: fullCompany.etablissement.adresseEtablissement.codePostalEtablissement,
+                libelleCommuneEtablissement: fullCompany.etablissement.adresseEtablissement.libelleCommuneEtablissement
+            }
+        })
+
+        const updatedUser = await User.findByIdAndUpdate(userId, {company: company}, {new: true, runValidators: true});
+
+        res.status(200).json({
+            message: "Compagnie de l'utilisateur mis à jour",
+            company: company,
+            user: updatedUser
+        });
+
+    } catch (error) {
+        res.status(500).json({
+            message: 'Erreur lors de l\'ajout de l\'entreprise',
+            error,
+        });
+    }
+}
+
 
 module.exports = {
     getAll, getOne, createOne, updateOne, deleteOne, updateProfilePic, getAllArtisansByRating,
-    getNewArtisans, getAllClient, getAllArtisan, getAllCompany, getUserByEmailOrName, loginUser
+    getNewArtisans, getAllClient, getAllArtisan, getAllCompany, getUserByEmailOrName, loginUser,
+    addCompany
 };
