@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 const {Schema} = require("mongoose");
+const bcrypt = require('bcrypt');
 
 const userSchema = new Schema({
     email:{
@@ -48,5 +49,28 @@ const userSchema = new Schema({
         default:Date.now
     }
 });
+
+userSchema.pre('save', async function (next) {
+    const user = this;
+
+    // Vérifier si le mot de passe a été modifié (ou nouvellement créé)
+    if (!user.isModified('password')) {
+        return next();
+    }
+
+    //Génère le mot de passe hashé
+    try {
+        const salt = await bcrypt.genSalt(10);
+        user.password = await bcrypt.hash(user.password, salt);
+        next();
+    } catch (error) {
+        return next(error);
+    }
+});
+
+// Méthode pour comparer le mot de passe en clair et le hashé
+userSchema.methods.comparePassword = async function (candidatePassword) {
+    return bcrypt.compare(candidatePassword, this.password);
+};
 
 module.exports = mongoose.model('User',userSchema);

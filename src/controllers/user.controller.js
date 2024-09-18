@@ -164,7 +164,33 @@ const deleteOne = async (req, res) => {
     }
 };
 
+const loginUser = async (req, res) => {
+    try {
+        const {email, password} = req.body;
+
+        // Trouver l'utilisateur par email
+        const user = await User.findOne({email});
+        if (!user) {
+            return res.status(404).json({message: 'Utilisateur non trouvé'});
+        }
+
+        // Comparer le mot de passe en clair avec le mot de passe haché dans la base
+        const isMatch = await user.comparePassword(password);
+        if (!isMatch) {
+            return res.status(401).json({message: 'Mot de passe incorrect'});
+        }
+
+        res.status(200).json({message: 'Connexion réussie', user: user});
+    } catch (error) {
+        res.status(500).json({
+            message: 'Erreur lors de la connexion',
+            error,
+        });
+    }
+};
+
+
 module.exports = {
     getAll, getOne, createOne, updateOne, deleteOne, updateProfilePic, getAllArtisansByRating,
-    getNewArtisans, getAllClient, getAllArtisan, getAllCompany, getUserByEmailOrName
+    getNewArtisans, getAllClient, getAllArtisan, getAllCompany, getUserByEmailOrName, loginUser
 };

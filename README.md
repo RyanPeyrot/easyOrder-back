@@ -123,22 +123,30 @@ Routes et Opérations CRUD
         - `searchType` : soit `email`, soit `name`.
         - `value` : La valeur correspondante (ex: `john.doe@example.com` ou `John Doe`).
         -
-  -   **POST** `/user` : Créer un nouvel utilisateur.
-      -   **Body** :
-        ```json
-        {
-            "email": "user@example.com",
-            "password": "secret",
-            "name": "John Doe",
-            "role": "client",
-            "company": "Exemple Corp",
-            "rating" : 3,
-            "subscriber": true
-        }
-        ```
+- **POST** `/user` : Créer un nouvel utilisateur.
+    - **Body** :
+    ```json
+    {
+        "email": "user@example.com",
+        "password": "secret",
+        "name": "John Doe",
+        "role": "client",
+        "company": "Exemple Corp",
+        "rating" : 3,
+        "subscriber": true
+    }
+    ```
 -   **POST** `/:id/profile_pic` : mettre à jour la photo de profil
     ```form
         form upload key : profile_pic
+    ```
+- **POST** `/login` : Se connecter
+    - **Body** :
+    ```json
+  {
+      "email": "user@example.com",
+      "password": "secret"
+  } 
     ```
 -   **PUT** `/user/:id` : Mettre à jour un utilisateur par ID.
 -   **DELETE** `/user/:id` : Supprimer un utilisateur par ID.
