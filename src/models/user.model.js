@@ -3,6 +3,9 @@ const {Schema} = require("mongoose");
 const bcrypt = require('bcrypt');
 
 const userSchema = new Schema({
+    stripe_id: {
+        type: String
+    },
     email:{
         type:String,
         required :true
