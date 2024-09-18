@@ -116,11 +116,11 @@ Routes et Opérations CRUD
 -   **GET** `/user` : Récupérer tous les utilisateurs.
 -   **GET** `/user/:id` : Récupérer un utilisateur par ID.
 - **GET** `/artisanByRate` : Récupérer tous les artisans triés par rating.
-- **GET** `/artisans` : Récupérer la liste de tous les artisans.
-- **GET** `/clients` : Récupérer la liste de tous les clients.
-- **GET** `/company` : Récupérer la liste unique des entreprises.
-- **GET** `/newArtisans` : Récupérer tous les artisans créés au cours du dernier mois.
-- **GET** `/:searchType/:value` : Récupérer un utilisateur par email ou nom.
+- **GET** `/user/artisans` : Récupérer la liste de tous les artisans.
+- **GET** `/user/clients` : Récupérer la liste de tous les clients.
+- **GET** `/user/company` : Récupérer la liste unique des entreprises.
+- **GET** `/user/newArtisans` : Récupérer tous les artisans créés au cours du dernier mois.
+- **GET** `/user/:searchType/:value` : Récupérer un utilisateur par email ou nom.
     - Paramètres d'URL :
         - `searchType` : soit `email`, soit `name`.
         - `value` : La valeur correspondante (ex: `john.doe@example.com` ou `John Doe`).
@@ -138,11 +138,11 @@ Routes et Opérations CRUD
         "subscriber": true
     }
     ```
--   **POST** `/:id/profile_pic` : mettre à jour la photo de profil
+-   **POST** `/user/:id/profile_pic` : mettre à jour la photo de profil
     ```form
         form upload key : profile_pic
     ```
-- **POST** `/login` : Se connecter
+- **POST** `/user/login` : Se connecter
     - **Body** :
     ```json
   {
