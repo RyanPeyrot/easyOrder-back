@@ -21,6 +21,25 @@ const getOne = async (req, res) => {
     }
 };
 
+const getReceivedSentComment = async (req, res) => {
+    try {
+        const userType = req.params.userType;
+
+        let filter
+        if (userType === "sender") {
+            filter = {sender_id: req.params.userId}
+        } else if (userType === "recipient") {
+            filter = {recipient_id: req.params.userId}
+        }
+
+        const comments = await Comment.find(filter);
+        if (!comments) return res.status(404).json({message: 'Commentaires non trouvé'});
+        res.status(200).json(comments);
+    } catch (error) {
+        res.status(500).json({message: 'Erreur lors de la récupération des commentaires', error});
+    }
+}
+
 
 const createOne = async (req, res) => {
     try {
@@ -54,6 +73,21 @@ const createOne = async (req, res) => {
 const updateOne = async (req, res) => {
     try {
         const updatedComment = await Comment.findByIdAndUpdate(req.params.id, req.body, { new: true });
+
+        if (req.body.rate) {
+            const recipient = await User.findById(data.recipient_id);
+            if (!recipient) {
+                return res.status(404).json({message: 'Utilisateur destinataire non trouvé'});
+            }
+
+            const newRating = ((recipient.rating * recipient.rate_amount) + data.rate) / newRateAmount;
+
+            recipient.rate_amount = newRateAmount;
+            recipient.rating = newRating;
+
+            await recipient.save();
+        }
+
         if (!updatedComment) return res.status(404).json({ message: 'Commentaire non trouvé' });
         res.status(200).json(updatedComment);
     } catch (error) {
@@ -71,4 +105,4 @@ const deleteOne = async (req, res) => {
     }
 };
 
-module.exports = { getAll, getOne, createOne, updateOne, deleteOne };
+module.exports = {getAll, getOne, createOne, updateOne, deleteOne, getReceivedSentComment};

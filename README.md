@@ -305,6 +305,8 @@ Routes et Opérations CRUD
 ### 6\. Comment
 
 -   **GET** `/comment` : Récupérer tous les commentaires.
+- **GET** `/comment/:userType/:userId` : Récupérer tous les commentaires d'un utilisateur selon son type
+  (recipient ou sender).
 -   **GET** `/comment/:id` : Récupérer un commentaire par ID.
 -   **POST** `/comment` : Créer un nouveau commentaire et modifie la note moyenne de l'utilisateur.
     -   **Body** :

@@ -1,6 +1,4 @@
 const Product = require('../models/product.model');
-const User = require("../models/user.model");
-
 const getAll = async (req, res) => {
     try {
         const products = await Product.find();
