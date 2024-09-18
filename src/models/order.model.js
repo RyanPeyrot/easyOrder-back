@@ -1,30 +1,35 @@
 const mongoose = require('mongoose');
 const {Schema, Types} = require("mongoose");
+const addressSchema = require('./address.model');
 
 const orderSchema = new Schema({
-    user_id:{
-        type:Types.ObjectId,
-        ref:'User',
-        required:true
+    user_id: {
+        type: Types.ObjectId,
+        ref: 'User',
+        required: true
     },
-    total_in_cent:{
-        type:Number,
-        required:true,
-        min:0
+    total_in_cent: {
+        type: Number,
+        required: true,
+        min: 0
     },
     status: {
         type: String,
         enum: ['pending', 'processing', 'shipped', 'delivered', 'cancelled'],
         default: 'pending'
     },
-    created_at:{
-        type:Date,
-        default:Date.now
+    delivery_address: {
+        type: addressSchema,
+        required: true
     },
-    updated_at:{
-        type:Date,
-        default:Date.now
+    created_at: {
+        type: Date,
+        default: Date.now
+    },
+    updated_at: {
+        type: Date,
+        default: Date.now
     }
 });
 
-module.exports = mongoose.model('Order',orderSchema);
+module.exports = mongoose.model('Order', orderSchema);

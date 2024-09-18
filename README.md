@@ -113,6 +113,16 @@ Routes et Opérations CRUD
 
 -   **GET** `/user` : Récupérer tous les utilisateurs.
 -   **GET** `/user/:id` : Récupérer un utilisateur par ID.
+- **GET** `/artisanByRate` : Récupérer tous les artisans triés par rating.
+- **GET** `/artisans` : Récupérer la liste de tous les artisans.
+- **GET** `/clients` : Récupérer la liste de tous les clients.
+- **GET** `/company` : Récupérer la liste unique des entreprises.
+- **GET** `/newArtisans` : Récupérer tous les artisans créés au cours du dernier mois.
+- **GET** `/:searchType/:value` : Récupérer un utilisateur par email ou nom.
+    - Paramètres d'URL :
+        - `searchType` : soit `email`, soit `name`.
+        - `value` : La valeur correspondante (ex: `john.doe@example.com` ou `John Doe`).
+        -
   -   **POST** `/user` : Créer un nouvel utilisateur.
       -   **Body** :
         ```json
@@ -157,17 +167,22 @@ Routes et Opérations CRUD
 
 -   **GET** `/order` : Récupérer toutes les commandes.
 -   **GET** `/order/:id` : Récupérer une commande par ID.
-  -   **POST** `/order` : Créer une nouvelle commande.
-      -   **Body** :
-
-      ```json
-          {
-            "user_id": "60a6a7cd8b5c5e0a8493bdc1",
-            "total_in_cent": 5000,
-            "status": "pending"
-          }
-        
-      ```
+-   **POST** `/order` : Créer une nouvelle commande.
+    -   **Body** :
+    
+    ```json
+      {
+        "user": "60d21b467fd7b00a6c339b8a",
+        "delivery_address": {
+            "street": "123 Rue de Paris",
+            "postalCode": "75001",
+            "city": "Paris",
+            "country": "France"
+        },
+        "items": ["60d21b567fd7b00a6c339b8b"],
+        "total_price": 10000
+      }
+    ```
 
 -   **PUT** `/order/:id` : Mettre à jour une commande par ID.
 -   **DELETE** `/order/:id` : Supprimer une commande par ID.
@@ -287,7 +302,7 @@ Routes et Opérations CRUD
   {
     "sender_id": "60a6a7cd8b5c5e0a8493bdc1",
     "recipient_id": "60a6a7cd8b5c5e0a8493bdc2",
-    "content": "Bonjour, comment allez-vous ?",
+    "content": "Super Taff",
     "rating": 4  
   }
 ```

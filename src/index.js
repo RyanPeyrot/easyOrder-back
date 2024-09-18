@@ -21,5 +21,5 @@ mongoose.connect(`${process.env.DBURI}`)
 app.use('/easyorder/v1',apiRouter)
 
 app.listen(PORT, () => {
-    console.log(`Server launch on http://localhost:${PORT}`);
+    console.log(`Server launch`);
 });
