@@ -1,6 +1,8 @@
 Documentation de l'API
 ======================
 
+//TODO : Ajouter les modifs schema order pour l'address de livraison
+
 Description
 -----------
 
@@ -229,9 +231,9 @@ Routes et Opérations CRUD
 
 ### 7\. Favorite_product
 
--   **GET** `/favorite_product` : Récupérer tous les favoris.
--   **GET** `/favorite_product/:id` : Récupérer un favori par ID.
--   **POST** `/favorite_product` : Créer un favori.
+- **GET** `/favoriteProduct` : Récupérer tous les favoris.
+- **GET** `/favoriteProduct/:id` : Récupérer un favori par ID.
+- **POST** `/favoriteProduct` : Créer un favori.
     -   **Body** :
 
 ```json
@@ -241,14 +243,14 @@ Routes et Opérations CRUD
 }
 ```
 
--   **PUT** `/favorite_product/:id` : Mettre à jour un favori par ID.
--   **DELETE** `/favorite_product/:id` : Supprimer un favori par ID.
+- **PUT** `/favoriteProduct/:id` : Mettre à jour un favori par ID.
+- **DELETE** `/favoriteProduct/:id` : Supprimer un favori par ID.
 
 ### 7\. Favorite_vendor
 
--   **GET** `/favorite_vendor` : Récupérer tous les favoris.
--   **GET** `/favorite_vendor/:id` : Récupérer un favori par ID.
--   **POST** `/favorite_vendor` : Créer un favori.
+- **GET** `/favoriteVendor` : Récupérer tous les favoris.
+- **GET** `/favoriteVendor/:id` : Récupérer un favori par ID.
+- **POST** `/favoriteVendor` : Créer un favori.
     -   **Body** :
 
 ```json
@@ -258,8 +260,8 @@ Routes et Opérations CRUD
 }
 ```
 
--   **PUT** `/favorite_vendor/:id` : Mettre à jour un favori par ID.
--   **DELETE** `/favorite_vendor/:id` : Supprimer un favori par ID.
+- **PUT** `/favoriteVendor/:id` : Mettre à jour un favori par ID.
+- **DELETE** `/favoriteVendor/:id` : Supprimer un favori par ID.
 
 ### 8\. Category
 
