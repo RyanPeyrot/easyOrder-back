@@ -72,24 +72,27 @@ const createOne = async (req, res) => {
 
 const updateOne = async (req, res) => {
     try {
-        const updatedComment = await Comment.findByIdAndUpdate(req.params.id, req.body, { new: true });
+        const oldComment = await Comment.findById(req.params.id);
 
-        if (req.body.rate) {
-            const recipient = await User.findById(data.recipient_id);
+        let recipient = {};
+        if (req.body.rate >= 0) {
+            recipient = await User.findById(oldComment.recipient_id);
             if (!recipient) {
                 return res.status(404).json({message: 'Utilisateur destinataire non trouvé'});
             }
 
-            const newRating = ((recipient.rating * recipient.rate_amount) + data.rate) / newRateAmount;
-
-            recipient.rate_amount = newRateAmount;
-            recipient.rating = newRating;
+            recipient.rating = ((recipient.rating * recipient.rate_amount) - oldComment.rate + req.body.rate) / recipient.rate_amount;
 
             await recipient.save();
         }
 
+        const updatedComment = await Comment.findByIdAndUpdate(req.params.id, req.body, {new: true});
         if (!updatedComment) return res.status(404).json({ message: 'Commentaire non trouvé' });
-        res.status(200).json(updatedComment);
+        res.status(201).json({
+            message: 'Commentaire créé et note mise à jour avec succès',
+            updatedComment,
+            recipient
+        });
     } catch (error) {
         res.status(500).json({ message: 'Erreur lors de la mise à jour du commentaire', error });
     }
