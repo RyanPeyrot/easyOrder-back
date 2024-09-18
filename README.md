@@ -154,6 +154,8 @@ Routes et Opérations CRUD
 ### 2\. Product
 
 -   **GET** `/product` : Récupérer tous les produits.
+- **GET** `/product/newProduct` : Récupérer les produits crée dans le dernier mois.
+- **GET** `/product/userProduct/:userId` : Récupérer les produits d'un utilisateur.
 -   **GET** `/product/:id` : Récupérer un produit par ID.
 -   **POST** `/product` : Créer un nouveau produit.
     -   **Body** :
