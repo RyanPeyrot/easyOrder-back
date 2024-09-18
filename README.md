@@ -32,6 +32,7 @@ Modèles
 
 ### 1\. User
 
+- **stripe_id** (String) : id stripe pour le paiement
 -   **email** (String, requis) : Adresse e-mail de l'utilisateur.
 -   **password** (String, requis) : Mot de passe de l'utilisateur.
 -   **name** (String, requis) : Nom de l'utilisateur.
