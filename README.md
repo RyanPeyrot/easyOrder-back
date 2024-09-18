@@ -313,7 +313,7 @@ Routes et Opérations CRUD
     "sender_id": "60a6a7cd8b5c5e0a8493bdc1",
     "recipient_id": "60a6a7cd8b5c5e0a8493bdc2",
     "content": "Super Taff",
-    "rating": 4  
+    "rate": 4  
   }
 ```
 
