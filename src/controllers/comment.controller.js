@@ -3,9 +3,7 @@ const User = require('../models/user.model');
 
 const getAll = async (req, res) => {
     try {
-        const comments = await Comment.find().populate({
-            path: 'sender_id'
-        });
+        const comments = await Comment.find().populate('sender_id');
         res.status(200).json(comments);
     } catch (error) {
         res.status(500).json({ message: 'Erreur lors de la récupération des commentaires', error });
