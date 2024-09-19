@@ -9,7 +9,7 @@ const productRouter = require('./product.routes');
 const userRouter = require('./user.routes');
 const favoriteProductRouter = require('./favorite_product.routes');
 const favoriteVendorRouter = require('./favorite_vendor.routes');
-const productCategory = require('./product_category.routes');
+const productCategory = require('./category.routes');
 const commentRouter = require('./comment.routes');
 
 router.use('/message',messageRouter);

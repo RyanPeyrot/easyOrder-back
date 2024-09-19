@@ -1,4 +1,4 @@
-const Category = require('../models/product_category.model');
+const Category = require('../models/category.model');
 
 // Récupérer toutes les catégories
 const getAll = async (req, res) => {
