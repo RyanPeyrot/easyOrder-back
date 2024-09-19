@@ -11,7 +11,8 @@ const orderSchema = new Schema({
     total_in_cent: {
         type: Number,
         required: true,
-        min: 0
+        min: 0,
+        default: 0
     },
     status: {
         type: String,
@@ -20,8 +21,11 @@ const orderSchema = new Schema({
     },
     delivery_address: {
         type: addressSchema,
-        required: true
     },
+    items: [{
+        type: Types.ObjectId,
+        ref: 'Order_item',
+    }],
     created_at: {
         type: Date,
         default: Date.now
