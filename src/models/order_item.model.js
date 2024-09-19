@@ -20,7 +20,8 @@ const orderItemSchema = new Schema({
     quantity: {
         type: Number,
         required:true,
-        min:0
+        default: 1,
+        min: 1
     }
 })
 

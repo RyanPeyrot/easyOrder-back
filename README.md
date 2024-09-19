@@ -221,6 +221,19 @@ Routes et Opérations CRUD
 
 -   **PUT** `/order/:id` : Mettre à jour une commande par ID.
 -   **DELETE** `/order/:id` : Supprimer une commande par ID.
+- **POST** `/order/addItem` : Ajoute un item à une commande (cree une commande si il n'y en à pas).
+    - **Body** :
+
+_**order_id facultatif**_
+
+  ```json
+    {
+  "user_id": "66ea0d3b769ec39a00fed637",
+  "product_id": "66eab13d6b3f0dc38beb68d6",
+  "quantity": 5,
+  "order_id": "66ea0d3db7d69edc39a00fed63f7"
+}
+  ```
 
 ### 4\. Payment
 
@@ -294,7 +307,7 @@ Routes et Opérations CRUD
 - **PUT** `/favoriteProduct/:id` : Mettre à jour un favori par ID.
 - **DELETE** `/favoriteProduct/:id` : Supprimer un favori par ID.
 
-### 7\. Favorite_vendor
+### 8\. Favorite_vendor
 
 - **GET** `/favoriteVendor` : Récupérer tous les favoris.
 - **GET** `/favoriteVendor/:id` : Récupérer un favori par ID.
@@ -311,7 +324,7 @@ Routes et Opérations CRUD
 - **PUT** `/favoriteVendor/:id` : Mettre à jour un favori par ID.
 - **DELETE** `/favoriteVendor/:id` : Supprimer un favori par ID.
 
-### 8\. Category
+### 9\. Category
 
 -   **GET** `/category` : Récupérer toutes les catégories.
 -   **GET** `/category/:id` : Récupérer une catégorie par ID.
@@ -320,14 +333,15 @@ Routes et Opérations CRUD
 
 ```json
 {
-  "name": "Catégorie 1"
+  "name": "Catégorie 1",
+  "description": "objet trop cool"
 }
 ```
 
 -   **PUT** `/category/:id` : Mettre à jour une catégorie par ID.
 -   **DELETE** `/category/:id` : Supprimer une catégorie par ID.
 
-### 6\. Comment
+### 10\. Comment
 
 -   **GET** `/comment` : Récupérer tous les commentaires.
 - **GET** `/comment/:userType/:userId` : Récupérer tous les commentaires d'un utilisateur selon son type
