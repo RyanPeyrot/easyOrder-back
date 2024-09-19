@@ -34,6 +34,14 @@ const companySchema = new Schema({
         type: String,
         enum: ['refusé', 'en attente', 'validé'],
         default: 'en attente'
+    },
+    profile_pic: {
+        type: String,
+        default: "https://res.cloudinary.com/dt1ksv65x/image/upload/v1726759886/company/profil_pic/company_default_pic.png"
+    },
+    banner_pic: {
+        type: String,
+        default: "https://res.cloudinary.com/dt1ksv65x/image/upload/t_Banner 16:9/v1726759860/company/banner_pic/company_default_banner.jpg"
     }
 });
 

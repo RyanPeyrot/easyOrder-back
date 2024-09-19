@@ -255,9 +255,44 @@ const addCompany = async (req, res) => {
     }
 }
 
+const updateCompanyPic = async (req, res) => {
+    try {
+        const userId = req.params.id;
+
+        const user = await User.findById(userId);
+        if (!user) {
+            return res.status(404).json({message: 'Utilisateur non trouvé'});
+        }
+        if (user.role !== "artisan") {
+            return res.status(403).json({message: 'Utilisateur non authorisé'});
+        }
+        const company = user.company;
+        if (!company) {
+            return res.status(404).json({message: 'Entreprise non trouvée'});
+        }
+
+        // Vérifier si des images ont été uploadées
+        if (req.files.profile_pic) {
+            company.profile_pic = req.files.profile_pic[0].path;
+        }
+
+        if (req.files.banner_pic) {
+            company.banner_pic = req.files.banner_pic[0].path;  // Mettre à jour l'URL de la bannière
+        }
+
+        const updatedUser = await User.findByIdAndUpdate(userId,
+            {company: company}, {new: true, runValidators: true});
+
+        res.status(200).json({message: 'Images mises à jour avec succès', user: updatedUser});
+    } catch (error) {
+        console.error('Erreur lors de l\'upload des images:', error);
+        res.status(500).json({message: 'Erreur lors de l\'upload des images'});
+    }
+};
+
 
 module.exports = {
     getAll, getOne, createOne, updateOne, deleteOne, updateProfilePic, getAllArtisansByRating,
     getNewArtisans, getAllClient, getAllArtisan, getAllCompany, getUserByEmailOrName, loginUser,
-    addCompany
+    addCompany, updateCompanyPic
 };

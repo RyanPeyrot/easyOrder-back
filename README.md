@@ -47,6 +47,8 @@ Modèles
         - **libelleVoieEtablissement** (String, requis)
         - **codePostalEtablissement** (String, requis)
         - **libelleCommuneEtablissement** (String, requis)
+      - **profile_pic** (String default)
+      - **banner_pic** (String default)
     - **etat** (String, `refusé`/`en attente`/`validé`, par defaut : `en attente`)
 -   **subscriber** (Boolean, requis) : Indique si l'utilisateur est abonné.
 -   **rating** (Number, par defaut à -1) : -1 indique aucune note, note moyenne de l'utilisateur
@@ -64,6 +66,20 @@ Modèles
 -   **artisan_id** (ObjectId, référence vers `User`, requis) : Artisan qui fabrique le produit.
 -   **created_at** (Date, par défaut à la date actuelle).
 -   **updated_at** (Date, par défaut à la date actuelle).
+- **categories** (Array, référence vers `Category`) : Catégories associées au produit.
+- **size** (Object, requis) : Taille du produit.
+    - **sizeLabel** (String, requis) : Nom de la taille (ex: "M", "L").
+    - **dimensions** (Object) : Dimensions du produit.
+        - **height** (Number) : Hauteur du produit.
+        - **width** (Number) : Largeur du produit.
+        - **depth** (Number) : Profondeur du produit.
+        - **unit** (String) : Unité de mesure (ex: "cm", "in").
+    - **weight** (Object) : Poids du produit.
+        - **value** (Number) : Valeur du poids.
+        - **unit** (String) : Unité de mesure du poids.
+- **pictures** (Array, max 10 éléments) : Liste des images du produit.
+    - **url** (String, requis) : URL de l'image.
+    - **_id** (String, requis) : Identifiant unique de l'image.
 
 ### 3\. Order
 
@@ -127,7 +143,7 @@ Modèles
 Routes et Opérations CRUD
 -------------------------
 
-### 1\. User
+### 1. User
 
 -   **GET** `/user` : Récupérer tous les utilisateurs.
 -   **GET** `/user/:id` : Récupérer un utilisateur par ID.
@@ -140,7 +156,6 @@ Routes et Opérations CRUD
     - Paramètres d'URL :
         - `searchType` : soit `email`, soit `name`.
         - `value` : La valeur correspondante (ex: `john.doe@example.com` ou `John Doe`).
-        -
 - **POST** `/user` : Créer un nouvel utilisateur.
     - **Body** :
     ```json
@@ -153,48 +168,60 @@ Routes et Opérations CRUD
         "subscriber": true
     }
     ```
--   **POST** `/user/:id/profile_pic` : mettre à jour la photo de profil
+- **POST** `/user/:id/profile_pic` : Mettre à jour la photo de profil.
     ```form
-        form upload key : profile_pic
+    form upload key : profile_pic
     ```
-- **POST** `/user/login` : Se connecter
+- **POST** `/user/login` : Se connecter.
     - **Body** :
     ```json
-  {
-      "email": "user@example.com",
-      "password": "secret"
-  } 
+    {
+        "email": "user@example.com",
+        "password": "secret"
+    }
     ```
-- **POST** `/addCompany` : Ajoute une entreprise à un utilisateur
+- **POST** `user/addCompany` : Ajouter une entreprise à un utilisateur.
     - **Body** :
   ```json
   {
-  "siret": "53066741900051",
-  "_id": "66ea9feb2a17a73474d7e0c7"
+      "siret": "53066741900051",
+      "_id": "66ea9feb2a17a73474d7e0c7"
   }
   ```
+- **POST** `/user/:id/company_pic` : Mettre à jour les images de l'entreprise (photo de profil et bannière).
+    - **Formulaire** : Clés pour le champ `profile_pic` et `banner_pic` (maximum 1 fichier pour chaque clé).
 -   **PUT** `/user/:id` : Mettre à jour un utilisateur par ID.
 -   **DELETE** `/user/:id` : Supprimer un utilisateur par ID.
 
-### 2\. Product
+### 2. Product
 
 -   **GET** `/product` : Récupérer tous les produits.
-- **GET** `/product/newProduct` : Récupérer les produits crée dans le dernier mois.
+- **GET** `/product/newProduct` : Récupérer les produits créés dans le dernier mois.
 - **GET** `/product/userProduct/:userId` : Récupérer les produits d'un utilisateur.
 -   **GET** `/product/:id` : Récupérer un produit par ID.
 -   **POST** `/product` : Créer un nouveau produit.
     -   **Body** :
-    
     ```json
-        {
-          "name": "Produit 1",
-          "description": "Description du produit",
-          "price_in_cent": 10000,
-          "stock": 50,
-          "artisan_id": "60a6a7cd8b5c5e0a8493bdc1"
-        }
+    {
+        "name": "Produit 1",
+        "description": "Description du produit",
+        "price_in_cent": 10000,
+        "stock": 50,
+        "artisan_id": "60a6a7cd8b5c5e0a8493bdc1"
+    }
     ```
-
+- **POST** `/product/:id/addPictures` : Ajouter des images à un produit (max 10).
+    - **Formulaire** :
+  ```form
+  field name: "pictures" (max 10 fichiers autorisés)
+  ```
+- **POST** `/product/:id/deletePicture` : Supprimer une image d'un produit par ID de l'image.
+    - **Body** :
+  ```json
+  {
+      "pictureId": "60a6a7cd8b5c5e0a8493bdc2"
+  }
+  ```
 -   **PUT** `/product/:id` : Mettre à jour un produit par ID.
 -   **DELETE** `/product/:id` : Supprimer un produit par ID.
 
