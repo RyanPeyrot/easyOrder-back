@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-const {Schema} = require("mongoose");
+const {Schema, Types} = require("mongoose");
 const bcrypt = require('bcrypt');
 const {companySchema} = require("./company.model");
 
@@ -38,9 +38,13 @@ const userSchema = new Schema({
         type:Number,
         default:0
     },
+    categories: [{
+        type: Types.ObjectId,
+        ref: 'Category',
+    }],
     profile_pic:{
         type:String,
-        default:"https://res.cloudinary.com/dt1ksv65x/image/upload/v1726566963/default_pic.png"
+        default: "https://res.cloudinary.com/dt1ksv65x/image/upload/v1726566963/profile_pictures/default_pic.png"
     },
     created_at:{
         type:Date,
