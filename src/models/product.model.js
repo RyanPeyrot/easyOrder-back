@@ -4,13 +4,13 @@ const {Schema, Types} = require("mongoose");
 const sizeSchema = new Schema({
     sizeLabel: {type: String, required: true},
     dimensions: {
-        height: {value: {type: Number}, unit: {type: String}},
-        width: {value: {type: Number}, unit: {type: String}},
-        depth: {value: {type: Number}, unit: {type: String}}
+        height: {value: {type: Number}, unit: {type: String, default:"cm"}},
+        width: {value: {type: Number}, unit: {type: String, default:"cm"}},
+        depth: {value: {type: Number}, unit: {type: String, default:"cm"}}
     },
     weight: {
         value: {type: Number},
-        unit: {type: String}
+        unit: {type: String, default:"kg"}
     }
 });
 
