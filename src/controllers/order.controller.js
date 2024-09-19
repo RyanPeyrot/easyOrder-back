@@ -4,7 +4,12 @@ const Order_item = require('../models/order_item.model');
 
 const getAll = async (req, res) => {
     try {
-        const orders = await Order.find();
+        const orders = await Order.find().populate({
+            path: 'items',
+            populate: {
+                path: 'product_id'
+            }
+        });
         res.status(200).json(orders);
     } catch (error) {
         res.status(500).json({ message: 'Erreur lors de la récupération des commandes', error });
@@ -13,7 +18,13 @@ const getAll = async (req, res) => {
 
 const getOne = async (req, res) => {
     try {
-        const order = await Order.findById(req.params.id);
+        const order = await Order.findById(req.params.id).populate({
+            path: 'items',
+            populate: {
+                path: 'product_id'
+            }
+        });
+        ;
         if (!order) return res.status(404).json({ message: 'Commande non trouvée' });
         res.status(200).json(order);
     } catch (error) {
