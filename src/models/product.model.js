@@ -54,12 +54,11 @@ const productSchema = new Schema({
     updated_at:{
         type:Date,
         default:Date.now
-    }, validate: {
-        validator: function (pictures) {
-            return pictures.length <= 10;
-        },
-        message: 'Le produit ne peut pas avoir plus de 5 images.'
     }
 });
+
+productSchema.path('pictures').validate(function (pictures) {
+    return pictures.length <= 10;
+}, 'Le produit ne peut pas avoir plus de 10 images.');
 
 module.exports = mongoose.model('Product',productSchema);
