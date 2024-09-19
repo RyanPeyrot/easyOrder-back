@@ -7,7 +7,10 @@ const getAll = async (req, res) => {
         const orders = await Order.find().populate({
             path: 'items',
             populate: {
-                path: 'product_id'
+                path: 'product_id',
+                populate: {
+                  path: 'artisan_id'
+                }
             }
         }).populate('user_id');
         res.status(200).json(orders);
