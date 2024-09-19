@@ -3,7 +3,7 @@ const Favorite = require('../models/favorite_vendor.model');
 // Récupérer tous les favoris
 const getAll = async (req, res) => {
     try {
-        const favorites = await Favorite.find().populate('user_id').populate('products');
+        const favorites = await Favorite.find().populate('user_id').populate('vendor');
         res.status(200).json(favorites);
     } catch (error) {
         res.status(500).json({ message: 'Erreur lors de la récupération des favoris', error });
