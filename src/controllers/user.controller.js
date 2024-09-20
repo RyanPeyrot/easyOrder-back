@@ -131,7 +131,10 @@ const createOne = async (req, res) => {
 // Mettre à jour un utilisateur
 const updateOne = async (req, res) => {
     try {
-        const updatedUser = await User.findByIdAndUpdate(req.params.id, req.body, {new: true, runValidators: true});
+        const updatedUser = await User.findByIdAndUpdate(req.params.id, {...req.body, updated_at: date.now}, {
+            new: true,
+            runValidators: true
+        });
         if (!updatedUser) return res.status(404).json({ message: 'Utilisateur non trouvé' });
         res.status(200).json(updatedUser);
     } catch (error) {
@@ -145,6 +148,7 @@ const updateProfilePic = async (req,res) => {
         if (!user) return res.status(404).json({ message: 'Utilisateur non trouvé' });
 
         user.profile_pic = req.file.path;
+        user.updated_at = Date.now;
         await user.save();
 
         res.status(200).json({
@@ -239,7 +243,10 @@ const addCompany = async (req, res) => {
             }
         })
 
-        const updatedUser = await User.findByIdAndUpdate(userId, {company: company}, {new: true, runValidators: true});
+        const updatedUser = await User.findByIdAndUpdate(userId, {company: company, updated_at: Date.now}, {
+            new: true,
+            runValidators: true
+        });
 
         res.status(200).json({
             message: "Compagnie de l'utilisateur mis à jour",
@@ -281,7 +288,7 @@ const updateCompanyPic = async (req, res) => {
         }
 
         const updatedUser = await User.findByIdAndUpdate(userId,
-            {company: company}, {new: true, runValidators: true});
+            {company: company, updated_at: Date.now}, {new: true, runValidators: true});
 
         res.status(200).json({message: 'Images mises à jour avec succès', user: updatedUser});
     } catch (error) {

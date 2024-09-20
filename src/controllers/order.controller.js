@@ -34,7 +34,10 @@ const createOne = async (req, res) => {
 
 const updateOne = async (req, res) => {
     try {
-        const updatedOrder = await Order.findByIdAndUpdate(req.params.id, req.body, { new: true });
+        const updatedOrder = await Order.findByIdAndUpdate(req.params.id, {
+            ...req.body,
+            updated_at: Date.now
+        }, {new: true});
         if (!updatedOrder) return res.status(404).json({ message: 'Commande non trouvée' });
         res.status(200).json(updatedOrder);
     } catch (error) {
@@ -77,7 +80,11 @@ const addItem = async (req, res) => {
         await orderItem.save();
 
         order = await Order.findByIdAndUpdate(order._id
-            , {total_in_cent: (order.total_in_cent + orderItem.price_in_cent), $push: {items: orderItem}}
+            , {
+                total_in_cent: (order.total_in_cent + orderItem.price_in_cent),
+                $push: {items: orderItem},
+                updated_at: Date.now
+            }
             , {new: true, runValidators: true})
 
         res.status(200).json({message: 'produits ajouter à la commande', order: order})

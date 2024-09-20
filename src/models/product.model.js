@@ -28,6 +28,11 @@ const productSchema = new Schema({
         required:true,
         min:0
     },
+    initial_stock: {
+        type: Number,
+        required: true,
+        min: 1
+    },
     stock:{
         type:Number,
         required:true,

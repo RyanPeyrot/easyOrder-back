@@ -36,7 +36,10 @@ const createOne = async (req, res) => {
 // Mettre à jour un paiement
 const updateOne = async (req, res) => {
     try {
-        const updatedPayment = await Payment.findByIdAndUpdate(req.params.id, req.body, { new: true });
+        const updatedPayment = await Payment.findByIdAndUpdate(req.params.id, {
+            ...req.body,
+            updated_at: Date.now
+        }, {new: true});
         if (!updatedPayment) return res.status(404).json({ message: 'Paiement non trouvé' });
         res.status(200).json(updatedPayment);
     } catch (error) {
