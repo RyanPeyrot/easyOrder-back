@@ -88,7 +88,7 @@ const updateOne = async (req, res) => {
 
         const updatedComment = await Comment.findByIdAndUpdate(req.params.id, {
             ...req.body,
-            updated_at: Date.now
+            updated_at: Date.now()
         }, {new: true});
         if (!updatedComment) return res.status(404).json({ message: 'Commentaire non trouvé' });
         res.status(201).json({

@@ -263,6 +263,9 @@ _**order_id facultatif**_
 }
   ```
 
+- **POST** `/order/:id/validateOrder` : Valide la commande et mets à jour les stocks des produits
+    - **Body** : Aucun body
+
 ### 4\. Payment
 
 -   **GET** `/payment` : Récupérer tous les paiements.

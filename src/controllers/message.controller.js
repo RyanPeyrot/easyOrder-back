@@ -38,7 +38,7 @@ const updateOne = async (req, res) => {
     try {
         const updatedMessage = await Message.findByIdAndUpdate(req.params.id, {
             ...req.body,
-            updated_at: Date.now
+            updated_at: Date.now()
         }, {new: true});
         if (!updatedMessage) return res.status(404).json({ message: 'Message non trouvé' });
         res.status(200).json(updatedMessage);

@@ -37,8 +37,7 @@ const createOne = async (req, res) => {
 const updateOne = async (req, res) => {
     try {
         const updatedFavorite = await Favorite.findByIdAndUpdate(req.params.id, {
-            ...req.body,
-            updated_at: Date.now
+            ...req.body
         }, {new: true});
         if (!updatedFavorite) return res.status(404).json({ message: 'Favori non trouvé' });
         res.status(200).json(updatedFavorite);
