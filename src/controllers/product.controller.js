@@ -137,27 +137,7 @@ const deletePicture = async (req, res) => {
     }
 };
 
-const checkImageLimit = async (req, res, next) => {
-    try {
-        const productId = req.params.id;
-
-        const product = await Product.findById(productId);
-        if (!product) {
-            return res.status(404).json({message: 'Produit non trouvé'});
-        }
-
-        if (product.pictures.length + req.files.length > 10) {
-            return res.status(400).json({message: 'Le produit ne peut pas avoir plus de 10 images.'});
-        }
-
-        next();
-    } catch (error) {
-        console.error('Erreur lors de la vérification de la limite d\'images:', error);
-        return res.status(500).json({message: 'Erreur serveur lors de la vérification de la limite d\'images !'});
-    }
-};
-
 module.exports = {
     getAll, getOne, createOne, updateOne, deleteOne, getUserProduct, getNewProducts, addPictures,
-    deletePicture, checkImageLimit
+    deletePicture
 };

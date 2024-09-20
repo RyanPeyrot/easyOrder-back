@@ -35,7 +35,7 @@ router.get('/newProduct', controller.getNewProducts)
 router.get('/userProduct/:userId', controller.getUserProduct)
 router.get('/:id', controller.getOne);
 router.post('/', controller.createOne);
-router.post('/:id/addPictures', controller.checkImageLimit, upload, controller.addPictures);
+router.post('/:id/addPictures', upload, controller.addPictures);
 router.post('/:id/deletePicture', controller.deletePicture);
 router.put('/:id', controller.updateOne);
 router.delete('/:id', controller.deleteOne);
