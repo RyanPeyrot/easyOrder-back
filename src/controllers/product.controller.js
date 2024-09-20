@@ -153,7 +153,7 @@ const checkImageLimit = async (req, res, next) => {
         next();
     } catch (error) {
         console.error('Erreur lors de la vérification de la limite d\'images:', error);
-        return res.status(500).json({message: 'Erreur serveur lors de la vérification de la limite d\'images.'});
+        return res.status(500).json({message: 'Erreur serveur lors de la vérification de la limite d\'images !'});
     }
 };
 
