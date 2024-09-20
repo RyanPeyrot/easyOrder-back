@@ -46,6 +46,16 @@ const userSchema = new Schema({
         type:String,
         default: "https://res.cloudinary.com/dt1ksv65x/image/upload/v1726566963/profile_pictures/default_pic.png"
     },
+    description: {
+        type: String,
+        default: ""
+    },
+    social_network: {
+        instagram: {type: String},
+        facebook: {type: String},
+        tiktok: {type: String},
+        youtube: {type: String}
+    },
     created_at:{
         type:Date,
         default:Date.now
