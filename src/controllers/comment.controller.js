@@ -86,7 +86,10 @@ const updateOne = async (req, res) => {
             await recipient.save();
         }
 
-        const updatedComment = await Comment.findByIdAndUpdate(req.params.id, req.body, {new: true});
+        const updatedComment = await Comment.findByIdAndUpdate(req.params.id, {
+            ...req.body,
+            updated_at: Date.now
+        }, {new: true});
         if (!updatedComment) return res.status(404).json({ message: 'Commentaire non trouvé' });
         res.status(201).json({
             message: 'Commentaire créé et note mise à jour avec succès',

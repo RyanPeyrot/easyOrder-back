@@ -36,7 +36,10 @@ const createOne = async (req, res) => {
 // Mettre à jour une catégorie
 const updateOne = async (req, res) => {
     try {
-        const updatedCategory = await Category.findByIdAndUpdate(req.params.id, req.body, { new: true });
+        const updatedCategory = await Category.findByIdAndUpdate(req.params.id, {
+            ...req.body,
+            updated_at: Date.now
+        }, {new: true});
         if (!updatedCategory) return res.status(404).json({ message: 'Catégorie non trouvée' });
         res.status(200).json(updatedCategory);
     } catch (error) {

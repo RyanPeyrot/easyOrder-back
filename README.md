@@ -62,7 +62,8 @@ Modèles
 -   **name** (String, requis) : Nom du produit.
 -   **description** (String, requis) : Description du produit.
 -   **price_in_cent** (Number, requis) : Prix du produit en centimes.
--   **stock** (Number, requis) : Stock disponible du produit.
+- **initial_stock** (Number, requis) : Stock initial du produit. min 1
+- **stock** (Number, requis) : Stock disponible du produit. min 0
 -   **artisan_id** (ObjectId, référence vers `User`, requis) : Artisan qui fabrique le produit.
 -   **created_at** (Date, par défaut à la date actuelle).
 -   **updated_at** (Date, par défaut à la date actuelle).

@@ -36,7 +36,10 @@ const createOne = async (req, res) => {
 // Mettre à jour un item de commande
 const updateOne = async (req, res) => {
     try {
-        const updatedOrderItem = await OrderItem.findByIdAndUpdate(req.params.id, req.body, { new: true });
+        const updatedOrderItem = await OrderItem.findByIdAndUpdate(req.params.id, {
+            ...req.body,
+            updated_at: Date.now
+        }, {new: true});
         if (!updatedOrderItem) return res.status(404).json({ message: 'Item de commande non trouvé' });
         res.status(200).json(updatedOrderItem);
     } catch (error) {
