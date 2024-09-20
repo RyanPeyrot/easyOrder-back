@@ -54,6 +54,12 @@ Modèles
 -   **rating** (Number, par defaut à -1) : -1 indique aucune note, note moyenne de l'utilisateur
 -   **rate_amount** (Number, par defaut à 0) : nombre d'avis de l'utilisateurs
 -   **profil_pic** (String, par defaut : "https://res.cloudinary.com/dt1ksv65x/image/upload/v1726566963/default_pic.png") : photo de profil
+- **description** (String par defaut : """);
+- **social_network**
+    - **instagram** (String) url du profil de reseau social
+    - **facebook** (String) url du profil de reseau social
+    - **tiktok** (String) url du profil de reseau social
+    - **youtube** (String) url du profil de reseau social
 -   **created_at** (Date, par défaut à la date actuelle).
 -   **updated_at** (Date, par défaut à la date actuelle).
 
