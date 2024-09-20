@@ -1,7 +1,7 @@
 const Product = require('../models/product.model');
 const getAll = async (req, res) => {
     try {
-        const products = await Product.find();
+        const products = await Product.find().populate('categories');
         res.status(200).json(products);
     } catch (error) {
         res.status(500).json({ message: 'Erreur lors de la récupération des produits', error });
@@ -10,7 +10,7 @@ const getAll = async (req, res) => {
 
 const getOne = async (req, res) => {
     try {
-        const product = await Product.findById(req.params.id);
+        const product = await Product.findById(req.params.id).populate('categories');
         if (!product) return res.status(404).json({ message: 'Produit non trouvé' });
         res.status(200).json(product);
     } catch (error) {
@@ -20,7 +20,7 @@ const getOne = async (req, res) => {
 
 const getUserProduct = async (req, res) => {
     try {
-        const product = await Product.find({artisan_id: req.params.userId});
+        const product = await Product.find({artisan_id: req.params.userId}).populate('categories');
         if (!product) return res.status(404).json({message: 'Produit non trouvé'});
         res.status(200).json(product);
     } catch (error) {
@@ -35,7 +35,7 @@ const getNewProducts = async (req, res) => {
 
         const product = await Product.find({
             created_at: {$gte: lastMonth}
-        }).sort({created_at: -1});
+        }).sort({created_at: -1}).populate('categories');
 
         res.status(200).json(product);
     } catch (error) {
