@@ -3,7 +3,7 @@ const Message = require('../models/message.model');
 // Récupérer tous les messages
 const getAll = async (req, res) => {
     try {
-        const messages = await Message.find().populate('sender_id').populate('recipient_id');
+        const messages = await Message.find();
         res.status(200).json(messages);
     } catch (error) {
         res.status(500).json({ message: 'Erreur lors de la récupération des messages', error });
@@ -13,7 +13,7 @@ const getAll = async (req, res) => {
 // Récupérer un message par ID
 const getOne = async (req, res) => {
     try {
-        const message = await Message.findById(req.params.id).populate('sender_id').populate('recipient_id');
+        const message = await Message.findById(req.params.id);
         if (!message) return res.status(404).json({ message: 'Message non trouvé' });
         res.status(200).json(message);
     } catch (error) {
