@@ -56,15 +56,11 @@ const userSchema = new Schema({
     }
 });
 
-userSchema.pre('save', async function (next) {
-    const user = this;
-
-    // Vérifier si le mot de passe a été modifié (ou nouvellement créé)
+// Fonction pour hacher le mot de passe
+async function hashPassword(user, next) {
     if (!user.isModified('password')) {
         return next();
     }
-
-    //Génère le mot de passe hashé
     try {
         const salt = await bcrypt.genSalt(10);
         user.password = await bcrypt.hash(user.password, salt);
@@ -72,7 +68,30 @@ userSchema.pre('save', async function (next) {
     } catch (error) {
         return next(error);
     }
+}
+
+// Middleware `pre('save')` pour hacher le mot de passe lors de la sauvegarde
+userSchema.pre('save', async function (next) {
+    await hashPassword(this, next);
 });
+
+// Middleware `pre('findOneAndUpdate')` pour hacher le mot de passe lors de la mise à jour
+userSchema.pre('findOneAndUpdate', async function (next) {
+    const update = this.getUpdate();
+    if (update.password) {
+        try {
+            const salt = await bcrypt.genSalt(10);
+            update.password = await bcrypt.hash(update.password, salt);
+            this.setUpdate(update);
+        } catch (error) {
+            return next(error);
+        }
+    }
+    next();
+});
+
+
+
 
 // Méthode pour comparer le mot de passe en clair et le hashé
 userSchema.methods.comparePassword = async function (candidatePassword) {
