@@ -7,9 +7,12 @@ const getAll = async (req, res) => {
         const orders = await Order.find().populate({
             path: 'items',
             populate: {
-                path: 'product_id'
+                path: 'product_id',
+                populate: {
+                  path: 'artisan_id'
+                }
             }
-        });
+        }).populate('user_id');
         res.status(200).json(orders);
     } catch (error) {
         res.status(500).json({ message: 'Erreur lors de la récupération des commandes', error });
