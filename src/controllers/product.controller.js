@@ -146,7 +146,7 @@ const checkImageLimit = async (req, res, next) => {
             return res.status(404).json({message: 'Produit non trouvé'});
         }
 
-        if ((product.pictures?.length + req.files?.length) > 10) {
+        if (product.pictures.length + req.files.length > 10) {
             return res.status(400).json({message: 'Le produit ne peut pas avoir plus de 10 images.'});
         }
 
