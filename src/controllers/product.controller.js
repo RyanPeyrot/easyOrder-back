@@ -61,7 +61,7 @@ const updateOne = async (req, res) => {
     try {
         const updatedProduct = await Product.findByIdAndUpdate(req.params.id, {
             ...req.body,
-            updated_at: Date.now
+            updated_at: Date.now()
         }, {new: true});
         if (!updatedProduct) return res.status(404).json({ message: 'Produit non trouvé' });
         res.status(200).json(updatedProduct);
@@ -105,7 +105,7 @@ const addPictures = async (req, res) => {
         }));
 
         product = await Product.findByIdAndUpdate(productId,
-            {$push: {pictures: {$each: uploadedFiles}}, updated_at: Date.now},  // Pousser chaque lien dans le tableau "pictures"
+            {$push: {pictures: {$each: uploadedFiles}}, updated_at: Date.now()},  // Pousser chaque lien dans le tableau "pictures"
             {new: true});
 
         res.status(200).json({message: 'Images ajoutées avec succès', product});

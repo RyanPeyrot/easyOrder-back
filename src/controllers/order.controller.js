@@ -1,7 +1,7 @@
 const Order = require('../models/order.model');
 const Product = require('../models/product.model');
 const Order_item = require('../models/order_item.model');
-
+const mongoose = require('mongoose');
 const getAll = async (req, res) => {
     try {
         const orders = await Order.find().populate({
@@ -50,7 +50,7 @@ const updateOne = async (req, res) => {
     try {
         const updatedOrder = await Order.findByIdAndUpdate(req.params.id, {
             ...req.body,
-            updated_at: Date.now
+            updated_at: Date.now()
         }, {new: true});
         if (!updatedOrder) return res.status(404).json({ message: 'Commande non trouvée' });
         res.status(200).json(updatedOrder);
@@ -76,6 +76,10 @@ const addItem = async (req, res) => {
         let order = await Order.findById(req.body.order_id);
         const quantity = req.body.quantity;
 
+        if (product.stock < quantity) {
+            res.status(403).json({message: 'Pas assez de stock', stock: product.stock})
+        }
+
         if (!order) {
             order = new Order({
                 user_id: userId,
@@ -97,7 +101,7 @@ const addItem = async (req, res) => {
             , {
                 total_in_cent: (order.total_in_cent + orderItem.price_in_cent),
                 $push: {items: orderItem},
-                updated_at: Date.now
+                updated_at: Date.now()
             }
             , {new: true, runValidators: true})
 
@@ -108,4 +112,59 @@ const addItem = async (req, res) => {
     }
 }
 
-module.exports = {getAll, getOne, createOne, updateOne, deleteOne, addItem};
+const validateOrder = async (req, res) => {
+    const orderId = req.params.id;
+    const order = await Order.findById(orderId).populate('items');
+    if (!order) {
+        return res.status(404).json({message: 'Commande non trouvée'});
+    }
+
+    const errorMessages = [];
+    const items = order.items;
+
+    for (const item of items) {
+        try {
+            const updatedProduct = await Product.findByIdAndUpdate(
+                item.product_id,
+                {$inc: {stock: -item.quantity}},
+                {new: true, runValidators: true}
+            );
+
+            if (!updatedProduct) {
+                errorMessages.push({
+                    order_item_id: item._id,
+                    message: `Product with ID ${item.product_id} not found.`
+                });
+            }
+        } catch (error) {
+            console.error(`Failed to update stock for product ID ${item.product_id}:`, error.message);
+            errorMessages.push({
+                order_item_id: item._id,
+                message: `Failed to update stock for product ID ${item.product_id}`
+            });
+
+            for (const rollbackItem of items) {
+                await Product.findByIdAndUpdate(
+                    rollbackItem.product_id,
+                    {$inc: {stock: rollbackItem.quantity}}  // Revenir au stock précédent
+                );
+            }
+            break;
+        }
+    }
+
+    if (errorMessages.length > 0) {
+        return res.status(400).json({success: false, errors: errorMessages});
+    }
+
+    const updatedOrder = await Order.findByIdAndUpdate(
+        orderId,
+        {status: 'processing', items: items},
+        {new: true}
+    );
+
+    return res.status(200).json({message: 'Commande mise à jour', order: updatedOrder});
+};
+
+
+module.exports = {getAll, getOne, createOne, updateOne, deleteOne, addItem, validateOrder};
