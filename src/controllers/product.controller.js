@@ -1,4 +1,5 @@
 const Product = require('../models/product.model');
+const cloudinary = require("../config/cloudinary");
 const getAll = async (req, res) => {
     try {
         const products = await Product.find().populate('categories');
@@ -96,6 +97,11 @@ const addPictures = async (req, res) => {
 
         // Vérifier le nombre actuel d'images
         if (product.pictures.length + req.files.length > 10) {
+            await Promise.all(req.files.map(async (file) => {
+                const publicId = file.filename; // Récupérer le public_id de l'image
+                await cloudinary.uploader.destroy(publicId); // Supprimer l'image de Cloudinary
+            }));
+
             return res.status(400).json({message: 'Le produit ne peut pas avoir plus de 10 images.'});
         }
 
