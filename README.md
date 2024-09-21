@@ -226,7 +226,7 @@ Routes et Opérations CRUD
     - **Body** :
   ```json
   {
-      "pictureId": "60a6a7cd8b5c5e0a8493bdc2"
+      "picturesId": "60a6a7cd8b5c5e0a8493bdc2"
   }
   ```
 -   **PUT** `/product/:id` : Mettre à jour un produit par ID.
